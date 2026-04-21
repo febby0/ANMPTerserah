@@ -50,12 +50,18 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    testImplementation(libs.junit)
+  implementation(libs.androidx.cardview)
+  testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.coroutinesCore)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.volley)
     implementation(libs.gson)
+  // Lifecycle (MVVM)
+  implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+  implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+  // RecyclerView
+  implementation("androidx.recyclerview:recyclerview:1.3.2")
 
 }
