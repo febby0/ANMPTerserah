@@ -5,23 +5,21 @@ import androidx.lifecycle.ViewModel
 
 class LoginViewModel : ViewModel() {
 
-    val loginSuccessLD = MutableLiveData<Pair<Boolean, String>>()
-    // Pair: first = sukses/gagal, second = userId (username)
-
-    // Hardcoded username & password
-    private val validUsers = mapOf(
-        "febby" to "febby123",
-        "vanessa" to "vanessa123",
-        "aubrey" to "aubrey123"
-    )
+    val loginSuccessLD = MutableLiveData<Boolean>()
+    val userIdLD = MutableLiveData<String>()
 
     fun login(username: String, password: String) {
-        val expectedPassword = validUsers[username]
-
-        if (expectedPassword != null && expectedPassword == password) {
-            loginSuccessLD.value = Pair(true, username)
+        if (username == "febby" && password == "febby123") {
+            userIdLD.value = username
+            loginSuccessLD.value = true
+        } else if (username == "vanessa" && password == "vanessa123") {
+            userIdLD.value = username
+            loginSuccessLD.value = true
+        } else if (username == "aubrey" && password == "aubrey123") {
+            userIdLD.value = username
+            loginSuccessLD.value = true
         } else {
-            loginSuccessLD.value = Pair(false, "")
+            loginSuccessLD.value = false
         }
     }
 }
