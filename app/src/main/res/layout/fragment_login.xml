@@ -10,72 +10,104 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="24dp"
-      android:layout_marginEnd="24dp"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent">
-
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-          android:id="@+id/textView2"
-          android:layout_width="match_parent"
+      <androidx.cardview.widget.CardView
+          android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:gravity="center"
-          android:text="Habit Tracker"
-          android:textSize="24sp"
-          android:textStyle="bold" />
+          android:layout_marginStart="24dp"
+          android:layout_marginEnd="24dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-          android:id="@+id/textView3"
-          android:layout_width="match_parent"
-          android:layout_height="29dp"
-          android:layout_marginTop="4dp"
-          android:layout_marginBottom="16dp"
-          android:gravity="center"
-          android:text="Sign in to continue" />
+          <androidx.constraintlayout.widget.ConstraintLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-        <EditText
-          android:id="@+id/etUsername"
-          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:ems="10"
-          android:hint="Username"
-          android:inputType="text" />
+              <TextView
+                  android:id="@+id/textView2"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="32dp"
+                  android:gravity="center"
+                  android:text="Habit Tracker"
+                  android:textSize="24sp"
+                  android:textStyle="bold"
+                  app:layout_constraintTop_toTopOf="parent"
+                  tools:layout_editor_absoluteX="-16dp" />
 
-        <EditText
-          android:id="@+id/etPassword"
-          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:ems="10"
-          android:hint="Password"
-          android:inputType="textPassword" />
+              <TextView
+                  android:id="@+id/textView3"
+                  android:layout_width="match_parent"
+                  android:layout_height="29dp"
+                  android:gravity="center"
+                  android:text="Sign in to continue"
+                  app:layout_constraintTop_toBottomOf="@+id/textView2"
+                  tools:layout_editor_absoluteX="-16dp" />
 
-        <TextView
-          android:id="@+id/tvError"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:textColor="#E91E63"
-          android:visibility="gone" />
+              <EditText
+                  android:id="@+id/etUsername"
+                  style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="24dp"
+                  android:layout_marginTop="32dp"
+                  android:layout_marginEnd="24dp"
+                  android:ems="10"
+                  android:hint="Username"
+                  android:inputType="text"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-        <Button
-          android:id="@+id/btnLogin"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:gravity="center"
-          android:text="Login" />
-      </LinearLayout>
-    </androidx.cardview.widget.CardView>
+              <EditText
+                  android:id="@+id/etPassword"
+                  style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="24dp"
+                  android:layout_marginTop="16dp"
+                  android:layout_marginEnd="24dp"
+                  android:ems="10"
+                  android:hint="Password"
+                  android:inputType="textPassword"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/etUsername" />
+
+              <TextView
+                  android:id="@+id/tvError"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="16dp"
+                  android:layout_marginTop="8dp"
+                  android:layout_marginEnd="16dp"
+                  android:text="TextView"
+                  android:textColor="#E91E63"
+                  android:textSize="12sp"
+                  android:visibility="gone"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+
+              <Button
+                  android:id="@+id/btnLogin"
+                  style="@style/Widget.AppCompat.Button"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="24dp"
+                  android:layout_marginTop="16dp"
+                  android:layout_marginEnd="24dp"
+                  android:layout_marginBottom="32dp"
+                  android:gravity="center"
+                  android:text="Login"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/tvError" />
+          </androidx.constraintlayout.widget.ConstraintLayout>
+
+      </androidx.cardview.widget.CardView>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
