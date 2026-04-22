@@ -1,46 +1,62 @@
 package com.projectnmp.anmpterserah.view
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.projectnmp.anmpterserah.databinding.HabitItemBinding
 import com.projectnmp.anmpterserah.model.Habit
 import com.projectnmp.anmpterserah.viewmodel.HabitViewModel
 
-class HabitAdapter(private val viewModel: HabitViewModel)
-  : RecyclerView.Adapter<HabitAdapter.ViewHolder>() {
+class HabitAdapter(
+  private val viewModel: HabitViewModel,
+  private val userId: String
+) : RecyclerView.Adapter<HabitAdapter.ViewHolder>() {
 
-  private var list = listOf<Habit>()
+  private var list: List<Habit> = listOf()
 
   fun submitList(newList: List<Habit>) {
     list = newList
     notifyDataSetChanged()
   }
 
-  inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val btnPlus: Button = view.findViewById(R.id.btnPlus)
-    val btnMinus: Button = view.findViewById(R.id.btnMinus)
-    val progressBar: ProgressBar = view.findViewById(R.id.progressBar)
-    val status: TextView = view.findViewById(R.id.tvStatus)
+  inner class ViewHolder(val binding: HabitItemBinding)
+    : RecyclerView.ViewHolder(binding.root)
+
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    val binding = HabitItemBinding.inflate(
+      LayoutInflater.from(parent.context),
+      parent,
+      false
+    )
+    return ViewHolder(binding)
   }
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     val habit = list[position]
 
-    holder.progressBar.max = habit.goal
-    holder.progressBar.progress = habit.progress
+    with(holder.binding) {
 
-    holder.status.text =
-      if (habit.progress >= habit.goal) "Completed"
-      else "In Progress"
+      // Set data
+      txtHabitName.text = habit.name
+      txtDesc.text = habit.description
+      txtStatus.text = habit.status
 
-    holder.btnPlus.setOnClickListener {
-      viewModel.updateProgress(habit, 1)
-    }
+      progress.max = habit.goal
+      progress.progress = habit.currentProgress
 
-    holder.btnMinus.setOnClickListener {
-      viewModel.updateProgress(habit, -1)
+      // Button +
+      btnAdd.setOnClickListener {
+        viewModel.incrementProgress(habit.id, userId)
+      }
+
+      // Button -
+      btnSub.setOnClickListener {
+        viewModel.decrementProgress(habit.id, userId)
+      }
     }
   }
 

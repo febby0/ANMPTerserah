@@ -8,34 +8,62 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.projectnmp.anmpterserah.R
+import com.projectnmp.anmpterserah.databinding.FragmentLoginBinding
+import com.projectnmp.anmpterserah.viewmodel.LoginViewModel
 
 class LoginFragment : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
-    }
+  private var _binding: FragmentLoginBinding? = null
+  private val binding get() = _binding!!
+
+  private lateinit var viewModel: LoginViewModel
+
+  override fun onCreateView(
+    inflater: LayoutInflater, container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View {
+    _binding = FragmentLoginBinding.inflate(inflater, container, false)
+    return binding.root
+  }
+
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    val btnLogin = view.findViewById<Button>(R.id.btnLogin)
-    val etUser = view.findViewById<EditText>(R.id.etUsername)
-    val etPass = view.findViewById<EditText>(R.id.etPassword)
-    val tvError = view.findViewById<TextView>(R.id.tvError)
+    viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
-    btnLogin.setOnClickListener {
-      val user = etUser.text.toString()
-      val pass = etPass.text.toString()
+    // Klik tombol login
+    binding.btnLogin.setOnClickListener {
+      val user = binding.etUsername.text.toString()
+      val pass = binding.etPassword.text.toString()
 
-      if (user == "student" && pass == "123") {
-        findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+      viewModel.login(user, pass)
+    }
+
+    // Observe hasil login
+    viewModel.loginSuccessLD.observe(viewLifecycleOwner) { result ->
+      if (result.first) {
+        // sukses
+        binding.tvError.visibility = View.GONE
+
+        val userId = result.second
+
+        // kirim userId ke dashboard (opsional, tapi bagus)
+        val action = LoginFragmentDirections
+          .actionLoginFragmentToDashboardFragment(userId)
+
+        findNavController().navigate(action)
+
       } else {
-        tvError.visibility = View.VISIBLE
-        tvError.text = "Username / Password salah"
+        // gagal
+        binding.tvError.visibility = View.VISIBLE
+        binding.tvError.text = "Username / Password salah"
       }
     }
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
   }
 }

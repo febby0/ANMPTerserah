@@ -22,6 +22,9 @@
     <action
       android:id="@+id/actionDashboardtoCreateHabit"
       app:destination="@id/createHabitFragment" />
+    <argument
+      android:name="userId"
+      app:argType="string" />
   </fragment>
   <fragment
     android:id="@+id/createHabitFragment"
