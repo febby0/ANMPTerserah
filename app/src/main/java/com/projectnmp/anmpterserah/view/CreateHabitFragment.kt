@@ -22,12 +22,16 @@ class CreateHabitFragment : Fragment(R.layout.fragment_create_habit) {
 
         binding = FragmentCreateHabitBinding.bind(view)
 
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
         val args = CreateHabitFragmentArgs.fromBundle(requireArguments())
         userId = args.userId
 
         viewModel = ViewModelProvider(requireActivity()).get(HabitViewModel::class.java)
 
-        val iconList = listOf("Fitness", "Water", "Book", "Meditation")
+        val iconList = listOf("book","fitness","food","meditation","run","sleep","walk","water")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, iconList)
         binding.spinnerIcon.setAdapter(adapter)
 

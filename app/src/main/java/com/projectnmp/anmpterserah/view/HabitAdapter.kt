@@ -13,6 +13,8 @@ class HabitAdapter(val habitList: ArrayList<Habit>) :
     var onIncrement: ((Int) -> Unit)? = null
     var onDecrement: ((Int) -> Unit)? = null
 
+    var onDelete: ((Int) -> Unit)? = null
+
     class HabitViewHolder(var binding: HabitItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -69,6 +71,11 @@ class HabitAdapter(val habitList: ArrayList<Habit>) :
 
         holder.binding.btnDecrement.setOnClickListener {
             onDecrement?.invoke(habit.id)
+        }
+
+        /* Tombol delete */
+        holder.binding.btnDelete.setOnClickListener {
+            onDelete?.invoke(habit.id)
         }
     }
 

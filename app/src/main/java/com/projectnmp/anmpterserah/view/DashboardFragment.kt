@@ -64,6 +64,11 @@ class DashboardFragment : Fragment() {
     habitAdapter.onDecrement = { habitId ->
       viewModel.decrementProgress(habitId, userId)
     }
+
+    /* Tombol delete */
+    habitAdapter.onDelete = { habitId ->
+      viewModel.deleteHabit(habitId, userId)
+    }
   }
 
   fun observeViewModel() {
