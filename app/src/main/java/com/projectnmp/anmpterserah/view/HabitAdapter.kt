@@ -6,19 +6,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.projectnmp.anmpterserah.databinding.HabitItemBinding
 import com.projectnmp.anmpterserah.model.Habit
 import com.projectnmp.anmpterserah.R
+import com.projectnmp.anmpterserah.viewmodel.HabitViewModel
 
-class HabitAdapter(val habitList: ArrayList<Habit>) :
-    RecyclerView.Adapter<HabitAdapter.HabitViewHolder>() {
-
-    var onIncrement: ((Int) -> Unit)? = null
-    var onDecrement: ((Int) -> Unit)? = null
-
-    var onDelete: ((Int) -> Unit)? = null
+class HabitAdapter(
+    val habitList: ArrayList<Habit>,
+    val viewModel: HabitViewModel,
+    val userId: String
+) : RecyclerView.Adapter<HabitAdapter.HabitViewHolder>() {
 
     class HabitViewHolder(var binding: HabitItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): HabitViewHolder {
         val binding = HabitItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
@@ -37,7 +39,7 @@ class HabitAdapter(val habitList: ArrayList<Habit>) :
         holder.binding.txtProgressValue.text =
             "${habit.currentProgress} / ${habit.goal} ${habit.unit}"
 
-        /* Progress bar — hitung persentase */
+        /* Progress bar */
         val percentage = (habit.currentProgress * 100) / habit.goal
         holder.binding.progress.progress = percentage
 
@@ -66,16 +68,15 @@ class HabitAdapter(val habitList: ArrayList<Habit>) :
 
         /* Tombol + dan - */
         holder.binding.btnIncrement.setOnClickListener {
-            onIncrement?.invoke(habit.id)
+            viewModel.incrementProgress(habit.id, userId)
         }
-
         holder.binding.btnDecrement.setOnClickListener {
-            onDecrement?.invoke(habit.id)
+            viewModel.decrementProgress(habit.id, userId)
         }
 
         /* Tombol delete */
         holder.binding.btnDelete.setOnClickListener {
-            onDelete?.invoke(habit.id)
+            viewModel.deleteHabit(habit.id, userId)
         }
     }
 
