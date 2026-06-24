@@ -4,34 +4,43 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.projectnmp.anmpterserah.model.Habit
-import com.projectnmp.anmpterserah.repository.HabitRepository
+import com.projectnmp.anmpterserah.util.buildDb
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class HabitViewModel(application: Application) :
-    AndroidViewModel(application) {
+class HabitViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
 
-    private val repository = HabitRepository(application)
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.IO
 
     val habitsLD = MutableLiveData<List<Habit>>()
-    val errorLD = MutableLiveData<String>()
+    val habitLD = MutableLiveData<Habit>()
 
-    /* Load semua habits milik user yang sedang login */
+    /* Load semua habits */
     fun loadHabits(userId: String) {
-        val habits = repository.getHabits(userId)
-        habitsLD.value = habits
+        launch {
+            val db = buildDb(getApplication())
+            habitsLD.postValue(db.habitDao().selectAllHabits(userId))
+        }
     }
 
-    /* Tambah habit baru */
+    /* Load 1 habit */
+    fun loadHabit(id: Int) {
+        launch {
+            val db = buildDb(getApplication())
+            habitLD.postValue(db.habitDao().selectHabit(id))
+        }
+    }
+
     fun addHabit(
         userId: String, name: String, description: String,
         goal: Int, unit: String, icon: String
     ) {
-        if (name.isBlank() || description.isBlank() || unit.isBlank() || goal <= 0) {
-            errorLD.value = "Please fill in all fields and goal must be greater than 0"
-            return
-        }
-
         val newHabit = Habit(
-            id = 0,   // nnti di assign otomatis oleh HabitPreferences
             userId = userId,
             name = name,
             description = description,
@@ -40,26 +49,46 @@ class HabitViewModel(application: Application) :
             icon = icon,
             currentProgress = 0
         )
-
-        repository.addHabit(newHabit)
-        loadHabits(userId)   // refresh list
+        launch {
+            val db = buildDb(getApplication())
+            db.habitDao().insertAll(newHabit)
+        }
     }
 
-    /* Increment progress (click button +) */
+    fun updateHabit(habit: Habit, userId: String) {
+        launch {
+            val db = buildDb(getApplication())
+            db.habitDao().updateHabit(habit)
+        }
+    }
+
     fun incrementProgress(habitId: Int, userId: String) {
-        repository.updateProgress(habitId, "increment")
-        loadHabits(userId)
+        launch {
+            val db = buildDb(getApplication())
+            val habit = db.habitDao().selectHabit(habitId)
+            val newProgress = minOf(habit.currentProgress + 1, habit.goal)
+            db.habitDao().updateProgress(habitId, newProgress)
+            habitsLD.postValue(db.habitDao().selectAllHabits(userId))
+        }
     }
 
-    /* Decrement progress (click button -) */
     fun decrementProgress(habitId: Int, userId: String) {
-        repository.updateProgress(habitId, "decrement")
-        loadHabits(userId)
+        launch {
+            val db = buildDb(getApplication())
+            val habit = db.habitDao().selectHabit(habitId)
+            val newProgress = maxOf(habit.currentProgress - 1, 0)
+            db.habitDao().updateProgress(habitId, newProgress)
+            habitsLD.postValue(db.habitDao().selectAllHabits(userId))
+        }
     }
 
-    /* Delete habit */
     fun deleteHabit(habitId: Int, userId: String) {
-        repository.deleteHabit(habitId)
-        loadHabits(userId)
+        launch {
+            val db = buildDb(getApplication())
+            db.habitDao().deleteHabit(habitId)
+            habitsLD.postValue(db.habitDao().selectAllHabits(userId))
+        }
     }
+
+
 }

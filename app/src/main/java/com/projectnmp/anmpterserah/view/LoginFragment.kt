@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.projectnmp.anmpterserah.R
 import com.projectnmp.anmpterserah.databinding.FragmentLoginBinding
 import com.projectnmp.anmpterserah.viewmodel.LoginViewModel
 
@@ -38,16 +36,15 @@ class LoginFragment : Fragment() {
             val password = binding.txtPassword.text.toString().trim()
 
             binding.txtError.visibility = View.GONE
-            binding.textInputLayout2.error = null
-            binding.textInputLayout4.error = null
 
             if (username.isEmpty()) {
-                binding.textInputLayout2.error = "Username tidak boleh kosong"
+                binding.txtError.text = "Username tidak boleh kosong"
+                binding.txtError.visibility = View.VISIBLE
                 return@setOnClickListener
             }
-
             if (password.isEmpty()) {
-                binding.textInputLayout4.error = "Password tidak boleh kosong"
+                binding.txtError.text = "Password tidak boleh kosong"
+                binding.txtError.visibility = View.VISIBLE
                 return@setOnClickListener
             }
 
@@ -63,6 +60,7 @@ class LoginFragment : Fragment() {
                 val action = LoginFragmentDirections.actionLoginFragmentToDashboardFragment(userId)
                 binding.btnLogin.findNavController().navigate(action)
             } else {
+                binding.txtError.text = "Invalid username or password"
                 binding.txtError.visibility = View.VISIBLE
             }
         })

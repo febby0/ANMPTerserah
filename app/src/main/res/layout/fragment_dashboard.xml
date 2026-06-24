@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".view.DashboardFragment">
 
-  <!-- AppBar di paling atas, menumpuk di atas ConstraintLayout -->
   <com.google.android.material.appbar.AppBarLayout
       android:id="@+id/appBarLayout"
       android:layout_width="match_parent"
@@ -24,17 +23,12 @@
 
   </com.google.android.material.appbar.AppBarLayout>
 
-  <!--
-      Diberi marginTop = ?attr/actionBarSize
-      agar konten tidak tertutup toolbar di atasnya
-  -->
   <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_marginTop="?attr/actionBarSize"
       android:background="#F5F5F5">
 
-    <!-- RecyclerView daftar habit -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -46,7 +40,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Tampilan saat list kosong -->
     <LinearLayout
         android:id="@+id/layoutEmpty"
         android:layout_width="0dp"
@@ -77,7 +70,6 @@
 
     </LinearLayout>
 
-    <!-- Loading spinner -->
     <ProgressBar
         android:id="@+id/progressLoad"
         style="?android:attr/progressBarStyle"
@@ -89,7 +81,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- FAB tombol tambah habit -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
         android:layout_width="wrap_content"

@@ -10,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.projectnmp.anmpterserah.R
 import com.projectnmp.anmpterserah.databinding.FragmentCreateHabitBinding
 import com.projectnmp.anmpterserah.viewmodel.HabitViewModel
 
