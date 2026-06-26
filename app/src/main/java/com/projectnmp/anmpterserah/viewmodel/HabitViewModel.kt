@@ -52,6 +52,7 @@ class HabitViewModel(application: Application) : AndroidViewModel(application), 
         launch {
             val db = buildDb(getApplication())
             db.habitDao().insertAll(newHabit)
+            habitsLD.postValue(db.habitDao().selectAllHabits(userId))
         }
     }
 
@@ -59,6 +60,7 @@ class HabitViewModel(application: Application) : AndroidViewModel(application), 
         launch {
             val db = buildDb(getApplication())
             db.habitDao().updateHabit(habit)
+            habitsLD.postValue(db.habitDao().selectAllHabits(userId))
         }
     }
 

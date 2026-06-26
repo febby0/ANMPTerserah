@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.Navigation
 import com.projectnmp.anmpterserah.databinding.FragmentCreateHabitBinding
 import com.projectnmp.anmpterserah.viewmodel.HabitViewModel
 
@@ -20,7 +20,8 @@ class CreateHabitFragment : Fragment() {
     private lateinit var userId: String
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCreateHabitBinding.inflate(inflater, container, false)
@@ -34,15 +35,13 @@ class CreateHabitFragment : Fragment() {
         val args = CreateHabitFragmentArgs.fromBundle(requireArguments())
         userId = args.userId
 
+        viewModel = ViewModelProvider(this).get(HabitViewModel::class.java)
+
         /* Setup Toolbar */
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener {
-            val action =
-                CreateHabitFragmentDirections.actionCreateHabitFragmentToDashboardFragment(userId)
-            it.findNavController().navigate(action)
+            Navigation.findNavController(it).popBackStack()
         }
-
-        viewModel = ViewModelProvider(this).get(HabitViewModel::class.java)
 
         /* Setup spinner icon */
         val iconList =
@@ -60,14 +59,13 @@ class CreateHabitFragment : Fragment() {
             val icon = binding.spinnerIcon.text.toString()
 
             if (name.isEmpty() || desc.isEmpty() || goal.isEmpty() || unit.isEmpty() || icon.isEmpty()) {
-                Toast.makeText(requireContext(), "All fields must be filled", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "All fields must be filled", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
 
             viewModel.addHabit(userId, name, desc, goal.toInt(), unit, icon)
-
-            val action = CreateHabitFragmentDirections.actionCreateHabitFragmentToDashboardFragment(userId)
-            it.findNavController().navigate(action)
+            Navigation.findNavController(it).popBackStack()
         }
     }
 }

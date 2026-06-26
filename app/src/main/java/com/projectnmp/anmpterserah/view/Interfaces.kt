@@ -13,4 +13,5 @@ interface HabitItemListener {
     fun onIncrementHabit(habitId: Int)
     fun onDecrementHabit(habitId: Int)
     fun onDeleteHabit(habitId: Int)
+    fun onEditHabit(v: View, habitId: Int)
 }

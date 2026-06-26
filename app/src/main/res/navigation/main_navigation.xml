@@ -11,7 +11,7 @@
       android:label="Login Screen"
       tools:layout="@layout/fragment_login">
     <action
-        android:id="@+id/actionLoginFragmentToDashboardFragment"
+        android:id="@+id/actionDashboardFragment"
         app:destination="@id/dashboardFragment"
         app:popUpTo="@id/loginFragment"
         app:popUpToInclusive="true"  />
@@ -22,13 +22,13 @@
       android:label="Dashboard Screen"
       tools:layout="@layout/fragment_dashboard">
     <action
-        android:id="@+id/actionDashboardFragmentToCreateHabitFragment"
+        android:id="@+id/actionCreateHabitFragment"
         app:destination="@id/createHabitFragment" />
     <argument
         android:name="userId"
         app:argType="string" />
     <action
-        android:id="@+id/actionDashboardFragmentToEditHabitFragment"
+        android:id="@+id/actionEditHabitFragment"
         app:destination="@id/editHabitFragment" />
   </fragment>
   <fragment
@@ -36,11 +36,6 @@
       android:name="com.projectnmp.anmpterserah.view.CreateHabitFragment"
       android:label="Create Habit Screen"
       tools:layout="@layout/fragment_create_habit" >
-    <action
-        android:id="@+id/actionCreateHabitFragmentToDashboardFragment"
-        app:destination="@id/dashboardFragment"
-        app:popUpTo="@id/dashboardFragment"
-        app:popUpToInclusive="true" />
     <argument
         android:name="userId"
         app:argType="string" />
@@ -50,9 +45,6 @@
       android:name="com.projectnmp.anmpterserah.view.EditHabitFragment"
       android:label="fragment_edit_habit"
       tools:layout="@layout/fragment_edit_habit" >
-    <action
-        android:id="@+id/actionEditHabitFragmentToDashboardFragment"
-        app:destination="@id/dashboardFragment" />
     <argument
         android:name="habitId"
         app:argType="integer" />

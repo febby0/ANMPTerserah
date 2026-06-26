@@ -57,7 +57,7 @@ class LoginFragment : Fragment() {
             if (it == true) {
                 binding.txtError.visibility = View.GONE
                 val userId = viewModel.userIdLD.value ?: ""
-                val action = LoginFragmentDirections.actionLoginFragmentToDashboardFragment(userId)
+                val action = LoginFragmentDirections.actionDashboardFragment(userId)
                 binding.btnLogin.findNavController().navigate(action)
             } else {
                 binding.txtError.text = "Invalid username or password"
