@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.projectnmp.anmpterserah.databinding.FragmentLoginBinding
+import com.projectnmp.anmpterserah.util.SessionManager
 import com.projectnmp.anmpterserah.viewmodel.LoginViewModel
 
 class LoginFragment : Fragment() {
@@ -26,6 +27,15 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        /* Cek session */
+        val sessionManager = SessionManager(requireContext())
+        if (sessionManager.isLoggedIn()) {
+            val userId = sessionManager.getUserId() ?: ""
+            val action = LoginFragmentDirections.actionDashboardFragment(userId)
+            binding.root.findNavController().navigate(action)
+            return
+        }
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 

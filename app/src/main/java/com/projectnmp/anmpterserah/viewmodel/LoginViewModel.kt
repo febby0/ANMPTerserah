@@ -3,7 +3,7 @@ package com.projectnmp.anmpterserah.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.projectnmp.anmpterserah.util.SessionManager
 import com.projectnmp.anmpterserah.util.buildDb
 import com.projectnmp.anmpterserah.util.seedUsers
 import kotlinx.coroutines.CoroutineScope
@@ -17,6 +17,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application), 
     private var job = Job()
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.IO
+
+    private val sessionManager = SessionManager(application)
 
     val loginSuccessLD = MutableLiveData<Boolean>()
     val userIdLD = MutableLiveData<String>()
@@ -33,6 +35,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application), 
             val db = buildDb(getApplication())
             val user = db.userDao().login(username, password)
             if (user != null) {
+                sessionManager.saveSession(user.username)
                 userIdLD.postValue(user.username)
                 loginSuccessLD.postValue(true)
             } else {
